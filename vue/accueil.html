@@ -180,7 +180,8 @@
                       </div>
                       
                     </div>
-                    <table class="table table-striped" id = "listeUtil">
+                    <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
+                    <table class="table table-striped" id = "listeUtil"  ng-show = "pageIsVisible == 'oui'">
                       <thead>
                         <tr>
                           <th class ="text-center" ng-click = "tri('nom')">Nom</th>
@@ -203,7 +204,7 @@
                       </tbody>
                     </table>
                     
-                    <div class="pager mt-4 align-center" >
+                    <div class="pager mt-4 align-center" ng-show = "pageIsVisible == 'oui'" >
                       <pager 
                         page-count="pageCount" 
                         current-page="currentPage" 
@@ -215,7 +216,7 @@
                       </pager>
                     </div>
 
-                    <button type="submit" class="btn btn-gradient-primary mr-2 mt-4" ng-click="exportPdf()">Exporter Pdf</button>
+                    <button type="submit" class="btn btn-gradient-primary mr-2 mt-4" ng-click="exportPdf()"  ng-show = "pageIsVisible == 'oui'">Exporter Pdf</button>
                   </div>
                 </div>
               </div>
@@ -224,6 +225,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Nouveau Utilisateur</h4>
                     <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurInsert}}</span></p>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Nom</label>
                         <input type="text" class="form-control" ng-model="new_nom" placeholder="Nom">
@@ -262,6 +264,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Modifier Utilisateur</h4>
                     <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurUpdate}}</span></p>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Nom</label>
                         <input type="text" class="form-control" value = "{{editUtil.nom}}" disabled>

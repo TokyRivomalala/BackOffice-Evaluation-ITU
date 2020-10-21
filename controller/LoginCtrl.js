@@ -9,8 +9,8 @@ pageApp.controller("LoginCtrl", function($scope,$location,$cookies,$http,$rootSc
         formdata.append('mdp', $scope.mdp);
         var req = {
             method: 'POST',
-            //url: 'http://localhost/Web-Service-Evaluation/AdminController/checkLogin',
-            url: 'https://ws-evaluation-itu.herokuapp.com/AdminController/checkLogin',
+            url: 'http://localhost/Web-Service-Evaluation/AdminController/checkLogin',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/AdminController/checkLogin',
             headers: {
                 'Content-Type': undefined
             },

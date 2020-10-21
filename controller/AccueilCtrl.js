@@ -22,6 +22,12 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
     //page
     $scope.currentPage = 1;
+    $scope.pageIsVisible = "oui";
+
+    //erreur
+    $scope.aucunUtilisateur = "";
+    $scope.erreurInsert = "";
+    $scope.erreurUpdate = "";
 
     //login
     $rootScope.erreurLogin = "";
@@ -44,7 +50,7 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
     $scope.rechercher = function(){
         console.log("rechercher");
-        
+
         if($scope.dateDeb != ""){
             var dd = String($scope.dateDeb. getDate()). padStart(2, '0');
             var mm = String($scope.dateDeb. getMonth() + 1). padStart(2, '0'); //January is 0!
@@ -61,8 +67,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         console.log($scope.currentPage);
         var req = {
             method: 'GET',
-            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
-            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -71,6 +77,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
                 $scope.utilisateurs = response.data.datas.util;
                 $scope.pageCount = response.data.datas.nbPage;
                 console.log($scope.pageCount);
@@ -83,6 +91,11 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
                     $rootScope.erreurLogin = response.data.datas.exception;
                     console.log($rootScope.erreurLogin);
                     $location.path('/');
+                }
+                if(response.data.message == "Aucun Utilisateur"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
                 }
             }
         }, function myError(response) {
@@ -116,8 +129,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         
         var req = {
             method: 'GET',
-            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
-            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
+            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -126,6 +139,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
                 $scope.utilisateurs = response.data.datas.util;
                 console.log($scope.utilisateurs);
                 console.log(response.data);
@@ -135,6 +150,11 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
                 if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
                     $rootScope.erreurLogin = response.data.datas.exception;
                     $location.path('/');
+                }
+                if(response.data.message == "Aucun Utilisateur"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
                 }
             }
         }, function myError(response) {
@@ -162,8 +182,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         formdata.append('mdp', $scope.new_mdp);
         var req = {
             method: 'POST',
-            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
-            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
+            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -171,9 +191,17 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
             data: formdata
         }
 
+        $scope.new_nom = "";
+        $scope.new_prenom = "";
+        $scope.new_datenaiss_str = "";
+        $scope.new_email = "";
+        $scope.new_sexe = "";
+        $scope.new_mdp = "";
+
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
                 console.log(response.data);
+                $scope.erreurInsert = "";
                 $scope.rechercher();
             }
             else {
@@ -181,6 +209,9 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
                 if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
                     $rootScope.erreurLogin = response.data.datas.exception;
                     $location.path('/');
+                }
+                if(response.data.message == "Erreur d'insertion"){
+                    $scope.erreurInsert = response.data.datas.exception;
                 }
             }
         }, function myError(response) {
@@ -197,8 +228,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         formdata.append('mdp', $scope.update_mdp);
         var req = {
             method: 'POST',
-            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
-            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
+            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -206,9 +237,12 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
             data: formdata
         }
 
+        $scope.update_mdp = "";
+
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
                 console.log(response.data);
+                $scope.erreurUpdate = "";
                 $scope.rechercher();
             }
             else {
@@ -217,6 +251,10 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
                     $rootScope.erreurLogin = response.data.datas.exception;
                     $location.path('/');
                 }
+                if(response.data.message == "Erreur de modification"){
+                    $scope.erreurUpdate = response.data.datas.exception;
+                }
+                
             }
         }, function myError(response) {
             console.log(response);
@@ -229,8 +267,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
         var req = {
             method: 'DELETE',
-            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/supprimer/'+idutil,
-            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/supprimer/'+idutil,
+            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/supprimer/'+idutil,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/supprimer/'+idutil,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -258,8 +296,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         console.log("deconnexion");
         var req = {
             method : 'POST',
-            //url : 'http://localhost/Web-Service-Evaluation/AdminController/deconnexion', 
-            url : 'https://ws-evaluation-itu.herokuapp.com/AdminController/deconnexion', 
+            url : 'http://localhost/Web-Service-Evaluation/AdminController/deconnexion', 
+            //url : 'https://ws-evaluation-itu.herokuapp.com/AdminController/deconnexion', 
             headers: {
             'Content-Type': undefined,
             'Authorization': 'Bearer ' + $cookies.get('adminToken')
