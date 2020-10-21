@@ -67,8 +67,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         console.log($scope.currentPage);
         var req = {
             method: 'GET',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
-            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -129,8 +129,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         
         var req = {
             method: 'GET',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
-            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
+            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
+            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr+'&orderBy='+orderBy+'&order='+$scope.order,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -182,8 +182,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         formdata.append('mdp', $scope.new_mdp);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
-            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
+            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
+            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -228,8 +228,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         formdata.append('mdp', $scope.update_mdp);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
-            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
+            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
+            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -267,8 +267,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
 
         var req = {
             method: 'DELETE',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/supprimer/'+idutil,
-            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/supprimer/'+idutil,
+            //url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/supprimer/'+idutil,
+            url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/supprimer/'+idutil,
             headers: {
                 'Content-Type': undefined,
                 'Authorization': 'Bearer ' + $cookies.get('adminToken')
@@ -296,8 +296,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         console.log("deconnexion");
         var req = {
             method : 'POST',
-            url : 'http://localhost/Web-Service-Evaluation/AdminController/deconnexion', 
-            //url : 'https://ws-evaluation-itu.herokuapp.com/AdminController/deconnexion', 
+            //url : 'http://localhost/Web-Service-Evaluation/AdminController/deconnexion', 
+            url : 'https://ws-evaluation-itu.herokuapp.com/AdminController/deconnexion', 
             headers: {
             'Content-Type': undefined,
             'Authorization': 'Bearer ' + $cookies.get('adminToken')
