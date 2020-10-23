@@ -1,6 +1,21 @@
-pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$rootScope) {
+pageApp.controller("AccueilCtrl", function(ExcelFactory,$scope,$http,$location,$cookies,$rootScope,$timeout) {
     console.log("accueil controller")
     $scope.vue = "create";
+
+
+    //sexe
+    $scope.sexeSelect = new Array();
+    $scope.sexeSelect[0] = {
+        value : "Homme",
+        libelle : "Homme"
+    };
+
+    $scope.sexeSelect[1] = {
+        value : "Femme",
+        libelle : "Femme"
+    };
+
+    console.log($scope.sexeSelect);
 
     //recherche formulaire
     $scope.nom = "";
@@ -32,10 +47,43 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
     //login
     $rootScope.erreurLogin = "";
 
+
+    //test date
+    $scope.test_date = "";
+    $scope.test_time = "";
+    var dateStr = "";
+
     var dateDebStr = "";
     var dateFinStr = "";
     var new_datenaiss_str = "";
     var orderBy = "";
+
+    var dateAndTimeToStr = function(inputDate,inputTime){
+        var res = "";
+        if(inputDate != "" && inputTime != ""){
+            var dd = String(inputDate.getDate()). padStart(2, '0');
+            var mm = String(inputDate.getMonth() + 1). padStart(2, '0'); //January is 0!
+            var yyyy = inputDate.getFullYear();
+            res = dd + '-' + mm + '-' + yyyy;
+
+            var hh = inputTime.getHours();
+            var min = inputTime.getMinutes();
+            var sec = inputTime.getSeconds();
+            res = res + " " + hh + ":" + min + ":" + sec ;
+        }
+        return res;
+    }
+
+    var dateToStr = function(inputDate){
+        var res = "";
+        if(inputDate != ""){
+            var dd = String(inputDate.getDate()). padStart(2, '0');
+            var mm = String(inputDate.getMonth() + 1). padStart(2, '0'); //January is 0!
+            var yyyy = inputDate.getFullYear();
+            res = dd + '-' + mm + '-' + yyyy;
+        }
+        return res;
+    }
 
     $scope.modifier = function (util){
         console.log('modifier');
@@ -166,12 +214,8 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
     $scope.create = function(){
         console.log('create');
 
-        if($scope.new_datenaiss != ""){
-            var dd = String($scope.new_datenaiss.getDate()). padStart(2, '0');
-            var mm = String($scope.new_datenaiss.getMonth() + 1). padStart(2, '0'); //January is 0!
-            var yyyy = $scope.new_datenaiss.getFullYear();
-            new_datenaiss_str = dd + '-' + mm + '-' + yyyy;
-        }
+        new_datenaiss_str = dateToStr($scope.new_datenaiss);
+        console.log($scope.new_sexe);
 
         var formdata = new FormData();
         formdata.append('nom', $scope.new_nom);
@@ -314,8 +358,7 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
             console.log(error.data.message);
           }
         );      
-      }
-
+    }
 
     $scope.exportPdf = function(){
         html2canvas(document.getElementById('listeUtil'), {
@@ -332,5 +375,47 @@ pageApp.controller("AccueilCtrl", function($scope,$http,$location,$cookies,$root
         });
     }
 
+    $scope.testDate = function(){
+        console.log("test date");
 
+        console.log($scope.test_date);
+        console.log($scope.test_time);
+
+        var dateStr = dateAndTimeToStr ($scope.test_date , $scope.test_time);
+        console.log(dateStr);
+
+        var formdata = new FormData();
+        formdata.append('date', dateStr);
+
+        var req = {
+            method : 'POST',
+            url : 'http://localhost/Web-Service-Evaluation/AdminController/nouveauDate', 
+            //url : 'https://ws-evaluation-itu.herokuapp.com/AdminController/deconnexion', 
+            headers: {
+            'Content-Type': undefined,
+            },
+            data : formdata
+
+        }
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                console.log(response.data);
+                $scope.rechercher();
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.message == "Erreur d'insertion"){
+                    $scope.erreurInsert = response.data.datas.exception;
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        }); 
+    }
+
+    $scope.exportExcel = function(tableId){ // ex: '#my-table'
+        console.log("export Excel");
+        $scope.exportHref = ExcelFactory.tableToExcel(tableId,'resultat');
+        $timeout(function(){location.href=$scope.exportHref;},100); // trigger download
+    }
 });
