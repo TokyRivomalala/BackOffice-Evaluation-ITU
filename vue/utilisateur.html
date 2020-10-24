@@ -135,7 +135,8 @@
                             <td>{{util.nom}}</td>
                             <td>{{util.prenom}}</td>
                             <td>{{util.email}}</td>
-                            <td>{{util.datenaiss}}</td>
+                            <td>{{util.datenaiss | date : "dd-MM-y"}}</td>
+
                             <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
                             <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td>
                           </tr>
