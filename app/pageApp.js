@@ -10,5 +10,10 @@ pageApp.config(function($routeProvider) {
       templateUrl : 'vue/accueil.html',
       controller : 'AccueilCtrl'
     })
+
+    .when('/utilisateur', {
+      templateUrl : 'vue/utilisateur.html',
+      controller : 'UtilisateurCtrl'
+    })
     .otherwise({ redirectTo: '/' });
   });

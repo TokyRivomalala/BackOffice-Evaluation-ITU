@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Purple Admin</title>
+
+    <link href="assets/lib/ng-pagination.min.css" rel="stylesheet" />
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/page-asset/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/page-asset/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/page-asset/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/page-asset/assets/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:assets/page-asset/partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo" href="assets/page-asset/index.html"><img src="assets/page-asset/assets/images/logo.svg" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="assets/page-asset/index.html"><img src="assets/page-asset/assets/images/logo-mini.svg" alt="logo" /></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-menu"></span>
+          </button>
+          
+          <ul class="navbar-nav navbar-nav-right">
+            
+            <li class="nav-item d-none d-lg-block full-screen-link">
+              <a class="nav-link">
+                <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+              </a>
+            </li>
+            
+            <li class="nav-item nav-logout d-none d-lg-block">
+              <a class="nav-link" ng-click = "deconnexion()">
+                <i class="mdi mdi-power"></i>
+              </a>
+            </li>
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:assets/page-asset/partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+                <div class="nav-profile-image">
+                  <img src="assets/page-asset/assets/images/faces/face1.jpg" alt="profile">
+                  <span class="login-status online"></span>
+                  <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                  <span class="font-weight-bold mb-2">Toky Rivomalala</span>
+                  <span class="text-secondary text-small">Administrateur</span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/accueil">
+                <span class="menu-title">Accueil</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#!/utilisateur">
+                  <span class="menu-title">Utilisateur</span>
+                  <i class="mdi mdi-account menu-icon"></i>
+                </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+
+        <div class="main-panel">
+          <div class="content-wrapper"> <!-- ty le blank page -->
+            <div class="row">
+              <div class="col-lg-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Utilisateurs</h4>
+                    <p class="card-description"> Recherche </p>
+                    <div class="row ml-1">
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Date de Naissance (Debut)</label>
+                        <input type="date" class="form-control" ng-model = 'dateDeb' >
+                      </div>
+                      <div class="form-group ml-5">
+                        <label for="exampleInputUsername1">Date de Naissance (Fin)</label>
+                        <input type="date" class="form-control" ng-model = 'dateFin' >
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="text" class="form-control col-10" ng-model = 'email' placeholder="rakoto@gmail.com">
+                      </div>
+                      <div class="form-group ml-2">
+                        <label for="exampleInputEmail1">Nom</label>
+                        <input type="text" class="form-control col-10" ng-model='nom' placeholder="Rakoto">
+                      </div>
+                      <div class="form-group ml-1 mt-4">
+                        <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="rechercher()">Valider</button>
+                      </div>
+                      
+                    </div>
+                    <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
+                    <table class="table table-hover" id = "listeUtil"  ng-show = "pageIsVisible == 'oui'">
+                      <thead>
+                        <tr>
+                          <th class ="text-center" ng-click = "tri('nom')">Nom</th>
+                          <th class ="text-center" ng-click = "tri('prenom')">Prenom</th>
+                          <th class ="text-center" ng-click = "tri('email')">Email</th>
+                          <th class ="text-center" ng-click = "tri('datenaiss')">Date Naiss</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="util in utilisateurs">
+                          <td>{{util.nom}}</td>
+                          <td>{{util.prenom}}</td>
+                          <td>{{util.email}}</td>
+                          <td>{{util.datenaiss}}</td>
+                          <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
+                          <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                    <div class="pager mt-4 align-center" ng-show = "pageIsVisible == 'oui'" >
+                      <pager 
+                        page-count="pageCount" 
+                        current-page="currentPage" 
+                        first-text="Debut" 
+                        last-text="Fin" 
+                        prev-text="Precedent" 
+                        next-text="Suivant"
+                        on-page-change="rechercher()">
+                      </pager>
+                    </div>
+
+                    <!-- test date -->
+                    <!-- <div class="form-group mt-4 ">
+                      <label for="exampleInputUsername1">Date</label>
+                      <input type="date" class="form-control" ng-model="test_date" >
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Heure</label>
+                      <input type="time" class="form-control" ng-model="test_time">
+                    </div>
+
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="testDate()">Ok</button>
+                    </div> -->
+                    <!-- fin test date -->
+
+                    <button type="submit" class="btn btn-gradient-info mr-2 mt-4" ng-click="exportPdf()"  ng-show = "pageIsVisible == 'oui'">Exporter Pdf</button>
+                    <button type="submit" class="btn btn-gradient-success mr-2 mt-4" ng-click="exportExcel('#listeUtil')"  ng-show = "pageIsVisible == 'oui'">Exporter Excel</button>
+                   
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 grid-margin stretch-card" ng-show="vue == 'create'">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Nouveau Utilisateur</h4>
+                    <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurInsert}}</span></p>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Nom</label>
+                        <input type="text" class="form-control" ng-model="new_nom" placeholder="Nom">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Prenom</label>
+                        <input type="text" class="form-control" ng-model="new_prenom" placeholder="Prenom">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Date de naissance</label>
+                        <input type="date" class="form-control" ng-model="new_datenaiss">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="email" class="form-control" ng-model="new_email" placeholder="Email">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Sexe</label>
+                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Mot de passe</label>
+                        <input type="password" class="form-control" ng-model="new_mdp" placeholder="Mot de passe">
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="create()">Valider</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 grid-margin stretch-card" ng-show ="vue == 'modifier'">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Modifier Utilisateur</h4>
+                    <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurUpdate}}</span></p>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Nom</label>
+                        <input type="text" class="form-control" value = "{{editUtil.nom}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Prenom</label>
+                        <input type="text" class="form-control" value = "{{editUtil.prenom}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Date de naissance</label>
+                        <input type="text" class="form-control" value ="{{editUtil.datenaiss}}" disabled >
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="email" class="form-control" value = "{{editUtil.email}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Sexe</label>
+                        <input type="text" class="form-control" value = "{{editUtil.sexe}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Mot de passe</label>
+                        <input type="password" class="form-control" ng-model="update_mdp"  placeholder="Mot de passe">
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="update(editUtil.idutil)">Modifier</button>
+                      <button class="btn btn-light" ng-click="nouveau()">Nouveau</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:assets/page-asset/partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2017 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- eto -->
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+
+    <script src="assets/lib/ng-pagination.min.css"></script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="assets/page-asset/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/page-asset/assets/js/off-canvas.js"></script>
+    <script src="assets/page-asset/assets/js/hoverable-collapse.js"></script>
+    <script src="assets/page-asset/assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
+  </body>
+</html>
