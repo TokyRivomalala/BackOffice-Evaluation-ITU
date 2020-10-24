@@ -113,8 +113,26 @@
                         <label for="exampleInputEmail1">Nom</label>
                         <input type="text" class="form-control col-10" ng-model='nom' placeholder="Rakoto">
                       </div>
+                      
+                      <!-- checkbox -->
+                      <div class="form-group ml-2 mt-4">
+                        <div class="radio">
+                          <label>
+                              <input ng-model="testRadio" type="radio" name="rdoResult" ng-value="'pass'">
+                                Pass
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input ng-model="testRadio" type="radio" name="rdoResult" ng-value="'fail'">
+                                Fail
+                          </label>
+                        </div>
+                      </div>
+                      <!-- checkbox -->
+
                       <div class="form-group ml-1 mt-4">
-                        <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="rechercher()">Valider</button>
+                        <button type="submit" class="btn btn-gradient-primary mr-2 ml-4" ng-click="rechercher()">Valider</button>
                       </div>
                       
                     </div>
@@ -229,22 +247,8 @@
                 </div>
               </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           </div>
+
           <!-- content-wrapper ends -->
           <!-- partial:assets/page-asset/partials/_footer.html -->
           <footer class="footer">

@@ -53,6 +53,9 @@ pageApp.controller("AccueilCtrl", function(ExcelFactory,$scope,$http,$location,$
     $scope.test_time = "";
     var dateStr = "";
 
+    //test radio
+    $scope.testRadio = "";
+
     var dateDebStr = "";
     var dateFinStr = "";
     var new_datenaiss_str = "";
@@ -98,7 +101,7 @@ pageApp.controller("AccueilCtrl", function(ExcelFactory,$scope,$http,$location,$
 
     $scope.rechercher = function(){
         console.log("rechercher");
-
+        console.log($scope.testRadio);
         if($scope.dateDeb != ""){
             var dd = String($scope.dateDeb. getDate()). padStart(2, '0');
             var mm = String($scope.dateDeb. getMonth() + 1). padStart(2, '0'); //January is 0!
