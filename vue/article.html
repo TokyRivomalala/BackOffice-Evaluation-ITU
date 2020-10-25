@@ -84,10 +84,10 @@
                 </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/article">
-                <span class="menu-title">Article</span>
-                <i class="mdi mdi-puzzle menu-icon"></i>
-              </a>
+                <a class="nav-link" href="#!/article">
+                  <span class="menu-title">Article</span>
+                  <i class="mdi mdi-puzzle menu-icon"></i>
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/achat">
@@ -100,7 +100,7 @@
                 <span class="menu-title">Promotion</span>
                 <i class="mdi mdi-gift menu-icon"></i>
               </a>
-          </li>
+           </li>
           </ul>
         </nav>
         <!-- partial -->
@@ -111,8 +111,8 @@
               <div class="col-lg-8 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Utilisateurs</h4>
-                    <p class="card-description"> Recherche </p>
+                    <h4 class="card-title">Articles</h4>
+                    <!-- <p class="card-description"> Recherche </p>
                     <div class="row ml-1">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Date de Naissance (Debut)</label>
@@ -134,29 +134,29 @@
                         <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="rechercher()">Valider</button>
                       </div>
                       
-                    </div>
+                    </div> -->
                     <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
                     <div class="divTable">
                       <table class="table table-hover" id = "listeUtil"  ng-show = "pageIsVisible == 'oui'">
                         <thead>
                           <tr>
-                            <th class ="text-center" ng-click = "tri('nom')">Nom</th>
-                            <th class ="text-center" ng-click = "tri('prenom')">Prenom</th>
-                            <th class ="text-center" ng-click = "tri('email')">Email</th>
-                            <th class ="text-center" ng-click = "tri('datenaiss')">Date Naiss</th>
-                            <th></th>
-                            <th></th>
+                            <th class ="text-center" ng-click = "tri('nom')">Code</th>
+                            <th class ="text-center" ng-click = "tri('prenom')">Designation</th>
+                            <th class ="text-center" ng-click = "tri('email')">Quantite Stock</th>
+                            <th class ="text-center" ng-click = "tri('datenaiss')">Prix Unitaire</th>
+                            <!-- <th></th>
+                            <th></th> -->
                           </tr>
                         </thead>
                         <tbody>
                           <tr ng-repeat="util in utilisateurs">
-                            <td>{{util.nom}}</td>
-                            <td>{{util.prenom}}</td>
-                            <td>{{util.email}}</td>
-                            <td>{{util.datenaiss | date : "dd-MM-y"}}</td>
+                            <td class ="text-center">{{util.nom}}</td>
+                            <td class ="text-center">{{util.prenom}}</td>
+                            <td class ="text-center">{{util.email}}</td>
+                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
 
-                            <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
-                            <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td>
+                            <!-- <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
+                            <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td> -->
                           </tr>
                         </tbody>
                       </table>
@@ -189,8 +189,8 @@
                     </div> -->
                     <!-- fin test date -->
 
-                    <button type="submit" class="btn btn-gradient-info mr-2 mt-4" ng-click="exportPdf()"  ng-show = "pageIsVisible == 'oui'">Exporter Pdf</button>
-                    <button type="submit" class="btn btn-gradient-success mr-2 mt-4" ng-click="exportExcel('#listeUtil')"  ng-show = "pageIsVisible == 'oui'">Exporter Excel</button>
+                    <!-- <button type="submit" class="btn btn-gradient-info mr-2 mt-4" ng-click="exportPdf()"  ng-show = "pageIsVisible == 'oui'">Exporter Pdf</button>
+                    <button type="submit" class="btn btn-gradient-success mr-2 mt-4" ng-click="exportExcel('#listeUtil')"  ng-show = "pageIsVisible == 'oui'">Exporter Excel</button> -->
                    
                   </div>
                 </div>
@@ -198,32 +198,24 @@
               <div class="col-md-4 grid-margin stretch-card" ng-show="vue == 'create'">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Nouveau Utilisateur</h4>
+                    <h4 class="card-title">Nouvel Article</h4>
                     <form class="forms-sample">
                       <p class = "text text-danger mb-3"><span>{{erreurInsert}}</span></p>
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Nom</label>
-                        <input type="text" class="form-control" ng-model="new_nom" placeholder="Nom">
+                        <label for="exampleInputUsername1">Code</label>
+                        <input type="text" class="form-control" ng-model="new_code" placeholder="Code">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Prenom</label>
-                        <input type="text" class="form-control" ng-model="new_prenom" placeholder="Prenom">
+                        <label for="exampleInputUsername1">Designation</label>
+                        <input type="text" class="form-control" ng-model="new_designation" placeholder="Designation">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Date de naissance</label>
-                        <input type="date" class="form-control" ng-model="new_datenaiss">
+                        <label for="exampleInputUsername1">Quantite stock</label>
+                        <input type="text" class="form-control" ng-model="new_quantiteStock" placeholder="Quantite stock">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" ng-model="new_email" placeholder="Email">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputUsername1">Sexe</label>
-                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Mot de passe</label>
-                        <input type="password" class="form-control" ng-model="new_mdp" placeholder="Mot de passe">
+                        <label for="exampleInputEmail1">Prix Unitaire</label>
+                        <input type="text" class="form-control" ng-model="new_prixUnitaire" placeholder="Prix Unitaire">
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="create()">Valider</button>
                     </form>

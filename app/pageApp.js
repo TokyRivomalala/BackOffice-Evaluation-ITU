@@ -15,5 +15,21 @@ pageApp.config(function($routeProvider) {
       templateUrl : 'vue/utilisateur.html',
       controller : 'UtilisateurCtrl'
     })
+
+    .when('/article', {
+      templateUrl : 'vue/article.html',
+      controller : 'ArticleCtrl'
+    })
+
+    .when('/achat', {
+      templateUrl : 'vue/achat.html',
+      controller : 'AchatCtrl'
+    })
+
+    .when('/promotion', {
+      templateUrl : 'vue/promotion.html',
+      controller : 'PromotionCtrl'
+    })
+
     .otherwise({ redirectTo: '/' });
   });

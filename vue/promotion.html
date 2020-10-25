@@ -78,16 +78,16 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/utilisateur">
-                <span class="menu-title">Utilisateur</span>
-                <i class="mdi mdi-account menu-icon"></i>
-              </a>
+                <a class="nav-link" href="#!/utilisateur">
+                  <span class="menu-title">Utilisateur</span>
+                  <i class="mdi mdi-account menu-icon"></i>
+                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#!/article">
-                <span class="menu-title">Article</span>
-                <i class="mdi mdi-puzzle menu-icon"></i>
-              </a>
+                <a class="nav-link" href="#!/article">
+                  <span class="menu-title">Article</span>
+                  <i class="mdi mdi-puzzle menu-icon"></i>
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#!/achat">
@@ -100,20 +100,19 @@
                 <span class="menu-title">Promotion</span>
                 <i class="mdi mdi-gift menu-icon"></i>
               </a>
-          </li>
+           </li>
           </ul>
         </nav>
         <!-- partial -->
 
         <div class="main-panel">
           <div class="content-wrapper"> <!-- ty le blank page -->
-            
-
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                 <div class="card-body">
-                  <h4 class="card-title">Utilisateurs</h4>
-                    <p class="card-description"> Recherche </p>
+            <div class="row">
+              <div class="col-lg-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Promotions Articles</h4>
+                    <!-- <p class="card-description"> Recherche </p>
                     <div class="row ml-1">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Date de Naissance (Debut)</label>
@@ -123,7 +122,7 @@
                         <label for="exampleInputUsername1">Date de Naissance (Fin)</label>
                         <input type="date" class="form-control" ng-model = 'dateFin' >
                       </div>
-                      <div class="form-group ml-5">
+                      <div class="form-group">
                         <label for="exampleInputEmail1">Email</label>
                         <input type="text" class="form-control col-10" ng-model = 'email' placeholder="rakoto@gmail.com">
                       </div>
@@ -131,142 +130,109 @@
                         <label for="exampleInputEmail1">Nom</label>
                         <input type="text" class="form-control col-10" ng-model='nom' placeholder="Rakoto">
                       </div>
-                      
-                      <!-- checkbox -->
-                      <div class="form-group ml-2 mt-4">
-                        <div class="radio">
-                          <label>
-                              <input ng-model="testRadio" type="radio" name="rdoResult" ng-value="'pass'">
-                                Pass
-                          </label>
-                        </div>
-                        <div class="radio">
-                          <label>
-                            <input ng-model="testRadio" type="radio" name="rdoResult" ng-value="'fail'">
-                                Fail
-                          </label>
-                        </div>
-                      </div>
-                      <!-- checkbox -->
-
                       <div class="form-group ml-1 mt-4">
-                        <button type="submit" class="btn btn-gradient-primary mr-2 ml-4" ng-click="rechercher()">Valider</button>
+                        <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="rechercher()">Valider</button>
                       </div>
                       
-                    </div>
+                    </div> -->
                     <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
-                    <div class="divTable" style = " overflow: scroll;">
-                      <table class="table table-hover" >
+                    <div class="divTable">
+                      <table class="table table-hover" id = "listeUtil"  ng-show = "pageIsVisible == 'oui'">
                         <thead>
                           <tr>
-                            <th> User </th>
-                            <th> First name </th>
-                            <th> Progress </th>
-                            <th> Amount </th>
-                            <th> Deadline </th>
+                            <th class ="text-center" ng-click = "tri('nom')">Code</th>
+                            <th class ="text-center" ng-click = "tri('prenom')">Designation</th>
+                            <th class ="text-center" ng-click = "tri('email')">Pourcentage</th>
+                            <th class ="text-center" ng-click = "tri('datenaiss')">Gratuité</th>
+                            <!-- <th></th>
+                            <th></th> -->
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                            </td>
-                            <td> Herman Beck </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 77.99 </td>
-                            <td> 15 Mai, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                            </td>
-                            <td> Messsy Adam </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $245.30 </td>
-                            <td> July 1, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-3.png" alt="image" />
-                            </td>
-                            <td> John Richards </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $138.00 </td>
-                            <td> Apr 12, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-4.png" alt="image" />
-                            </td>
-                            <td> Peter Meggik </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 77.99 </td>
-                            <td> May 15, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                            </td>
-                            <td> Edward </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 160.25 </td>
-                            <td> May 03, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                            </td>
-                            <td> John Doe </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 123.21 </td>
-                            <td> April 05, 2015 </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-3.png" alt="image" />
-                            </td>
-                            <td> Henry Tom </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 150.00 </td>
-                            <td> June 16, 2015 </td>
+                          <tr ng-repeat="util in utilisateurs">
+                            <td class ="text-center">{{util.nom}}</td>
+                            <td class ="text-center">{{util.prenom}}</td>
+                            <td class ="text-center">{{util.email}}</td>
+                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
+
+                            <td><button class="badge badge-primary" ng-click="modifier(util)">Modifier</button></td>
+                            <!--<td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td> -->
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                 
+                    
+                    <div class="pager mt-4 align-center" ng-show = "pageIsVisible == 'oui'" >
+                      <pager 
+                        page-count="pageCount" 
+                        current-page="currentPage" 
+                        first-text="Debut" 
+                        last-text="Fin" 
+                        prev-text="Precedent" 
+                        next-text="Suivant"
+                        on-page-change="rechercher()">
+                      </pager>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 grid-margin stretch-card" ng-show="vue == 'create'">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Nouvel Article</h4>
+                    <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurInsert}}</span></p>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Code</label>
+                        <input type="text" class="form-control" ng-model="new_code" placeholder="Code">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Designation</label>
+                        <input type="text" class="form-control" ng-model="new_designation" placeholder="Designation">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Quantite stock</label>
+                        <input type="text" class="form-control" ng-model="new_quantiteStock" placeholder="Quantite stock">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Prix Unitaire</label>
+                        <input type="text" class="form-control" ng-model="new_prixUnitaire" placeholder="Prix Unitaire">
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary mr-2" ng-click="create()">Valider</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 grid-margin stretch-card" ng-show ="vue == 'modifier'">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Modifier Promotion Article</h4>
+                    <form class="forms-sample">
+                      <p class = "text text-danger mb-3"><span>{{erreurUpdate}}</span></p>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Code</label>
+                        <input type="text" class="form-control" value = "{{editUtil.nom}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Designation</label>
+                        <input type="text" class="form-control" value = "{{editUtil.prenom}}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Pourcentage</label>
+                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Gratuité</label>
+                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idutil)">Modifier</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
           <!-- content-wrapper ends -->
           <!-- partial:assets/page-asset/partials/_footer.html -->
           <footer class="footer">
