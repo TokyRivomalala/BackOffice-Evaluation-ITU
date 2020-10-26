@@ -71,18 +71,7 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/accueil">
-                <span class="menu-title">Accueil</span>
-                <i class="mdi mdi-home menu-icon"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#!/utilisateur">
-                  <span class="menu-title">Utilisateur</span>
-                  <i class="mdi mdi-account menu-icon"></i>
-                </a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="#!/article">
                   <span class="menu-title">Article</span>
@@ -143,17 +132,17 @@
                             <th class ="text-center" ng-click = "tri('nom')">Code</th>
                             <th class ="text-center" ng-click = "tri('prenom')">Designation</th>
                             <th class ="text-center" ng-click = "tri('email')">Pourcentage</th>
-                            <th class ="text-center" ng-click = "tri('datenaiss')">Gratuité</th>
+                            <th class ="text-center" ng-click = "tri('datenaiss')">Ach-Off</th>
                             <!-- <th></th>
                             <th></th> -->
                           </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="util in utilisateurs">
-                            <td class ="text-center">{{util.nom}}</td>
-                            <td class ="text-center">{{util.prenom}}</td>
-                            <td class ="text-center">{{util.email}}</td>
-                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
+                          <tr ng-repeat="util in article">
+                            <td class ="text-center">{{util.code}}</td>
+                            <td class ="text-center">{{util.designation}}</td>
+                            <td class ="text-center">{{util.pourcentage}}</td>
+                            <td class ="text-center">{{util.nbmin}}-{{util.nbgratuit}}</td>
 
                             <td><button class="badge badge-primary" ng-click="modifier(util)">Modifier</button></td>
                             <!--<td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td> -->
@@ -212,11 +201,11 @@
                       <p class = "text text-danger mb-3"><span>{{erreurUpdate}}</span></p>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Code</label>
-                        <input type="text" class="form-control" value = "{{editUtil.nom}}" disabled>
+                        <input type="text" class="form-control" value = "{{editUtil.code}}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Designation</label>
-                        <input type="text" class="form-control" value = "{{editUtil.prenom}}" disabled>
+                        <input type="text" class="form-control" value = "{{editUtil.designation}}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Pourcentage</label>
@@ -224,7 +213,7 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Gratuité</label>
-                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
+                        <select class="custom-select" ng-options="item.idpourcentage as item.pourcentage for item in sexeSelect" ng-model="new_sexe"></select>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idutil)">Modifier</button>
                     </form>

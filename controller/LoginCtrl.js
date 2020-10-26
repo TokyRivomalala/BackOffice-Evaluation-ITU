@@ -21,7 +21,7 @@ pageApp.controller("LoginCtrl", function($scope,$location,$cookies,$http,$rootSc
             if (response.data.status == "success") {
                 console.log(response.data);
                 $cookies.put("adminToken", response.data.datas.token);
-                $location.path('accueil');
+                $location.path('article');
             }
             else {
                 $rootScope.erreurLogin = response.data.datas.exception;

@@ -26,12 +26,10 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
     $scope.order = "ASC";
     
     //nouveau utilisateur
-    $scope.new_nom = "";
-    $scope.new_prenom = "";
-    $scope.new_datenaiss = "";
-    $scope.new_email = "";
-    $scope.new_sexe = "";
-    $scope.new_mdp = "";
+    $scope.new_code = "";
+    $scope.new_designation = "";
+    $scope.new_quantiteStock = "";
+    $scope.new_prixUnitaire = "";
 
     //modifier utilisateur
     $scope.update_mdp = "";
@@ -100,23 +98,10 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
     $scope.rechercher = function(){
         console.log("rechercher");
 
-        if($scope.dateDeb != ""){
-            var dd = String($scope.dateDeb. getDate()). padStart(2, '0');
-            var mm = String($scope.dateDeb. getMonth() + 1). padStart(2, '0'); //January is 0!
-            var yyyy = $scope.dateDeb. getFullYear();
-            dateDebStr = dd + '-' + mm + '-' + yyyy;
-        }
-        if($scope.dateFin != ""){
-            var dd = String($scope.dateFin. getDate()). padStart(2, '0');
-            var mm = String($scope.dateFin. getMonth() + 1). padStart(2, '0'); //January is 0!
-            var yyyy = $scope.dateFin. getFullYear();
-            dateFinStr = dd + '-' + mm + '-' + yyyy;
-        }
-
         console.log($scope.currentPage);
         var req = {
             method: 'GET',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            url: 'http://localhost/Web-Service-Evaluation/ArticleController/selectComplet/'+$scope.currentPage,
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
             headers: {
                 'Content-Type': undefined,
@@ -128,7 +113,7 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
             if (response.data.status == "success") {
                 $scope.pageIsVisible = "oui";
                 $scope.aucunUtilisateur = "";
-                $scope.utilisateurs = response.data.datas.util;
+                $scope.utilisateurs = response.data.datas.article;
                 $scope.pageCount = response.data.datas.nbPage;
                 console.log($scope.pageCount);
                 console.log($scope.utilisateurs);
@@ -141,7 +126,7 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
                     console.log($rootScope.erreurLogin);
                     $location.path('/');
                 }
-                if(response.data.message == "Aucun Utilisateur"){
+                if(response.data.message == "Aucun Article"){
                     $scope.utilisateurs = "";
                     $scope.aucunUtilisateur = "Aucun resultat trouve";
                     $scope.pageIsVisible = "non";
@@ -215,19 +200,14 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
     $scope.create = function(){
         console.log('create');
 
-        new_datenaiss_str = dateToStr($scope.new_datenaiss);
-        console.log($scope.new_sexe);
-
         var formdata = new FormData();
-        formdata.append('nom', $scope.new_nom);
-        formdata.append('prenom', $scope.new_prenom);
-        formdata.append('dateNaiss', new_datenaiss_str);
-        formdata.append('email', $scope.new_email);
-        formdata.append('sexe', $scope.new_sexe);
-        formdata.append('mdp', $scope.new_mdp);
+        formdata.append('code', $scope.new_code);
+        formdata.append('designation', $scope.new_designation);
+        formdata.append('quantitestock', $scope.new_quantiteStock);
+        formdata.append('prixunitaire', $scope.new_prixUnitaire);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
+            url: 'http://localhost/Web-Service-Evaluation/ArticleController/nouveau',
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
             headers: {
                 'Content-Type': undefined,
@@ -236,12 +216,10 @@ pageApp.controller("ArticleCtrl", function(ExcelFactory,$scope,$http,$location,$
             data: formdata
         }
 
-        $scope.new_nom = "";
-        $scope.new_prenom = "";
-        $scope.new_datenaiss = "";
-        $scope.new_email = "";
-        $scope.new_sexe = "";
-        $scope.new_mdp = "";
+        $scope.new_code = "";
+        $scope.new_designation = "";
+        $scope.new_quantiteStock = "";
+        $scope.new_prixUnitaire = "";
 
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {

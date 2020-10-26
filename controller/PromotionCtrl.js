@@ -3,18 +3,51 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
     console.log("utilisateur controller")
     $scope.vue = "createe";
 
+    $scope.getPourcentage = function(){
+        console.log("rechercher");
+        $scope.prc = "";
+        console.log($scope.currentPage);
+        var req = {
+            method: 'GET',
+            url: 'http://localhost/Web-Service-Evaluation/PromotionController/selectPourcentage',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
+                $scope.prc = response.data.datas;
+                console.log($scope.prc);
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    console.log($rootScope.erreurLogin);
+                    $location.path('/');
+                }
+                if(response.data.message == "Aucun Article"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        });
+
+    }
 
     //sexe
-    $scope.sexeSelect = new Array();
-    $scope.sexeSelect[0] = {
-        value : "Homme",
-        libelle : "Homme"
-    };
-
-    $scope.sexeSelect[1] = {
-        value : "Femme",
-        libelle : "Femme"
-    };
+    $scope.getPourcentage();
+    console.log($scope.prc);
+    $scope.sexeSelect = $scope.prc;
+    console.log($scope.sexeSelect);
 
     console.log($scope.sexeSelect);
 
@@ -85,6 +118,90 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
         }
         return res;
     }
+
+    $scope.getArticle = function(){
+        console.log("rechercher");
+
+        console.log($scope.currentPage);
+        var req = {
+            method: 'GET',
+            url: 'http://localhost/Web-Service-Evaluation/ArticleController/selectComplet/'+$scope.currentPage,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
+                $scope.article = response.data.datas.article;
+                $scope.pageCount = response.data.datas.nbPage;
+                console.log($scope.pageCount);
+                console.log($scope.utilisateurs);
+                console.log(response.data);
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    console.log($rootScope.erreurLogin);
+                    $location.path('/');
+                }
+                if(response.data.message == "Aucun Article"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        });
+
+    }
+
+    $scope.getPourcentage = function(){
+        console.log("rechercher");
+
+        console.log($scope.currentPage);
+        var req = {
+            method: 'GET',
+            url: 'http://localhost/Web-Service-Evaluation/PromotionController/selectPourcentage',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
+                $scope.prc = response.data.datas;
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    console.log($rootScope.erreurLogin);
+                    $location.path('/');
+                }
+                if(response.data.message == "Aucun Article"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        });
+
+    }
+
+    $scope.getArticle();
 
     $scope.modifier = function (util){
         console.log('modifier');

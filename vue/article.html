@@ -71,18 +71,7 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/accueil">
-                <span class="menu-title">Accueil</span>
-                <i class="mdi mdi-home menu-icon"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#!/utilisateur">
-                  <span class="menu-title">Utilisateur</span>
-                  <i class="mdi mdi-account menu-icon"></i>
-                </a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="#!/article">
                   <span class="menu-title">Article</span>
@@ -140,20 +129,20 @@
                       <table class="table table-hover" id = "listeUtil"  ng-show = "pageIsVisible == 'oui'">
                         <thead>
                           <tr>
-                            <th class ="text-center" ng-click = "tri('nom')">Code</th>
-                            <th class ="text-center" ng-click = "tri('prenom')">Designation</th>
-                            <th class ="text-center" ng-click = "tri('email')">Quantite Stock</th>
-                            <th class ="text-center" ng-click = "tri('datenaiss')">Prix Unitaire</th>
+                            <th class ="text-center" ng-click = "tri('code')">Code</th>
+                            <th class ="text-center" ng-click = "tri('designation')">Designation</th>
+                            <th class ="text-center" ng-click = "tri('quantitestock')">Quantite Stock</th>
+                            <th class ="text-center" ng-click = "tri('prixunitaire')">Prix Unitaire</th>
                             <!-- <th></th>
                             <th></th> -->
                           </tr>
                         </thead>
                         <tbody>
                           <tr ng-repeat="util in utilisateurs">
-                            <td class ="text-center">{{util.nom}}</td>
-                            <td class ="text-center">{{util.prenom}}</td>
-                            <td class ="text-center">{{util.email}}</td>
-                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
+                            <td class ="text-center">{{util.code}}</td>
+                            <td class ="text-center">{{util.designation}}</td>
+                            <td class ="text-center">{{util.quantitestock}}</td>
+                            <td class ="text-center">{{util.prixunitaire}}</td>
 
                             <!-- <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
                             <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td> -->

@@ -71,18 +71,7 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#!/accueil">
-                <span class="menu-title">Accueil</span>
-                <i class="mdi mdi-home menu-icon"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#!/utilisateur">
-                  <span class="menu-title">Utilisateur</span>
-                  <i class="mdi mdi-account menu-icon"></i>
-                </a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="#!/article">
                   <span class="menu-title">Article</span>
@@ -150,17 +139,17 @@
                         </thead>
                         <tbody>
                           <tr ng-repeat="util in utilisateurs">
-                            <td class ="text-center">{{util.nom}}</td>
-                            <td class ="text-center">{{util.prenom}}</td>
-                            <td class ="text-center">{{util.email}}</td>
-                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
+                            <td class ="text-center">{{util.code}}</td>
+                            <td class ="text-center">{{util.quantiteprod}}</td>
+                            <td class ="text-center">{{util.prixunitaire}}</td>
+                            <td class ="text-center">{{util.prixsansremise}}</td>
 
                             <!-- <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td> -->
                             <td><button class="badge badge-danger" ng-click="modifier(util)">Annuler</button></td>
                           </tr>
                         </tbody>
                       </table>
-                      <h4 class="card-title mt-4">Total : Ar 123 832</h4>
+                      <!-- <h4 class="card-title mt-4">Total : Ar 123 832</h4> -->
                       <button type="submit" class="btn btn-gradient-info mr-2 mt-4" ng-click="valider()" >Valider</button>
                     </div>
                     
@@ -185,34 +174,32 @@
                    
                     <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
                     <div class="divTable">
-                      <table class="table table-hover"   ng-show = "pageIsVisible == 'oui'">
+                      <table class="table table-hover" ng-show = "pageIsVisible == 'oui'">
                         <thead>
                           <tr>
-                            <th class ="text-center" ng-click = "tri('nom')">Qté</th>
-                            <th class ="text-center" ng-click = "tri('prenom')">Désignation</th>
-                            <th class ="text-center" ng-click = "tri('email')">Px Unit</th>
-                            <th class ="text-center" ng-click = "tri('email')">Px Sans Remise</th>
-                            <th class ="text-center" ng-click = "tri('email')">Pourcentage</th>
-                            <th class ="text-center" ng-click = "tri('email')">Gratuité</th>
-                            <th class ="text-center" ng-click = "tri('datenaiss')">Remise</th>
+                            <th class ="text-center" ng-click = "tri('prenom')">Code</th>
+                            <th class ="text-center" ng-click = "tri('email')">PxUnit</th>
+                            <th class ="text-center" ng-click = "tri('email')">Prc</th>
+                            <th class ="text-center" ng-click = "tri('email')">PxUnit(Final)</th>
+                            <th class ="text-center" ng-click = "tri('email')">Ach-Off</th>
+                            <th class ="text-center" ng-click = "tri('email')">Pay-Obt</th>
+                            <th class ="text-center" ng-click = "tri('datenaiss')">PxTotal</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="util in utilisateurs">
-                            <td class ="text-center">{{util.nom}}</td>
-                            <td class ="text-center">{{util.prenom}}</td>
-                            <td class ="text-center">{{util.email}}</td>
-                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
-                            <td class ="text-center">16%</td>
-                            <td class ="text-center">2 Achetés - 1 Offert</td>
-                            <td class ="text-center">{{util.datenaiss | date : "dd-MM-y"}}</td>
+                          <tr ng-repeat="util in achat">
+                            <td class ="text-center">{{util.qtecaisse}} {{util.code}}</td>
+                            <td class ="text-center">{{util.prixunitairesansremise}}</td>
+                            <td class ="text-center">{{util.pourcentage}}</td>
+                            <td class ="text-center">{{util.nouveauprixunitaire}}</td>
+                            <td class ="text-center">{{util.nbmin}}-{{util.nbgratuit}}</td>
+                            <td class ="text-center">{{util.aPayer}}-{{util.qtetotal}}</td>
+                            <td class ="text-center">{{util.prixavecpourcentage}}</td>
                           </tr>
                         </tbody>
                       </table>
-                      <h6 class=" mt-4">Net TTC : Ar 500 000</h6>
-                      <h6 class=" mt-4">Remise TTC : Ar 150 000</h6>
-                      <h6 class=" mt-4">Prix Total (Avec Remise) : Ar 350 000</h6>
-                      <h6 class=" mt-4">Date : 28 Octobre 2020</h6>
+                      <h6 class=" mt-4">Prix Total (Avec Remise) : Ar {{achat[0].prixtotal}}</h6>
+                      <h6 class=" mt-4">Date : {{achat[0].date | date : "dd-MM-y"}}</h6>
                     </div>
                     <button type="submit" class="btn btn-gradient-info mr-2 mt-4" ng-click="exportPdf()"  ng-show = "pageIsVisible == 'oui'">Exporter Pdf</button>
                     
@@ -233,7 +220,7 @@
                    
                   </div>
                   <div class="card-body" ng-show = "afficher ==  'ticket'">
-                    <h6>Chiffre d'affaire : Ar 350 000</h6>
+                    <h6>Chiffre d'affaire : Ar {{achat[0].prixtotal}}</h6>
                     <h4 class="card-title">Stock Restant</h4>
     
                     <p class = "text text-danger mb-3"><span>{{aucunUtilisateur}}</span></p>
@@ -247,10 +234,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="util in utilisateurs">
-                            <td class ="text-center">{{util.nom}}</td>
-                            <td class ="text-center">{{util.prenom}}</td>
-                            <td class ="text-center">{{util.email}}</td>
+                          <tr ng-repeat="util in article">
+                            <td class ="text-center">{{util.code}}</td>
+                            <td class ="text-center">{{util.designation}}</td>
+                            <td class ="text-center">{{util.quantitestock}}</td>
 
                             <!-- <td><button class="badge badge-warning" ng-click="modifier(util)">Modifier</button></td>
                             <td><button class="badge badge-danger" ng-click="delete(util.idutil)">Supprimer</button></td> -->
@@ -303,25 +290,25 @@
                       <p class = "text text-danger mb-3"><span>{{erreurUpdate}}</span></p>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Code</label>
-                        <input type="text" class="form-control" value = "{{editUtil.nom}}" disabled>
+                        <input type="text" class="form-control" value = "{{editUtil.code}}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Qté</label>
-                        <input type="text" class="form-control" value = "{{editUtil.prenom}}" disabled>
+                        <input type="text" class="form-control" value = "{{editUtil.quantiteprod}}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Px Unit</label>
-                        <input type="text" class="form-control" value ="{{editUtil.datenaiss}}" disabled >
+                        <input type="text" class="form-control" value ="{{editUtil.prixunitaire}}" disabled >
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Total TTC</label>
-                        <input type="email" class="form-control" value = "{{editUtil.email}}" disabled>
+                        <input type="email" class="form-control" value = "{{editUtil.prixsansremise}}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Mot de passe</label>
                         <input type="password" class="form-control" ng-model="update_mdp"  placeholder="Mot de passe">
                       </div>
-                      <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idutil)">Modifier</button>
+                      <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idachat)">Modifier</button>
                       <button class="btn btn-secondary" ng-click="nouveau()">Nouveau</button>
                     </form>
                   </div>

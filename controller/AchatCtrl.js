@@ -1,8 +1,10 @@
 
 pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$cookies,$rootScope,$timeout) {
     console.log("utilisateur controller")
-    $scope.vue = "createe";
-    $scope.afficher = "ticket";
+    $scope.vue = "create";
+    $scope.afficher = "achat";
+
+    $scope.chiffreAffaire = 0;
 
 
     //sexe
@@ -117,7 +119,7 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
         console.log($scope.currentPage);
         var req = {
             method: 'GET',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            url: 'http://localhost/Web-Service-Evaluation/AchatController/selectComplet/'+$scope.currentPage,
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
             headers: {
                 'Content-Type': undefined,
@@ -129,7 +131,7 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
             if (response.data.status == "success") {
                 $scope.pageIsVisible = "oui";
                 $scope.aucunUtilisateur = "";
-                $scope.utilisateurs = response.data.datas.util;
+                $scope.utilisateurs = response.data.datas.achat;
                 $scope.pageCount = response.data.datas.nbPage;
                 console.log($scope.pageCount);
                 console.log($scope.utilisateurs);
@@ -220,15 +222,11 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
         console.log($scope.new_sexe);
 
         var formdata = new FormData();
-        formdata.append('nom', $scope.new_nom);
-        formdata.append('prenom', $scope.new_prenom);
-        formdata.append('dateNaiss', new_datenaiss_str);
-        formdata.append('email', $scope.new_email);
-        formdata.append('sexe', $scope.new_sexe);
-        formdata.append('mdp', $scope.new_mdp);
+        formdata.append('code', $scope.new_code);
+        formdata.append('quantite', $scope.new_quantiteProduit);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/nouveau',
+            url: 'http://localhost/Web-Service-Evaluation/AchatController/nouveau',
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
             headers: {
                 'Content-Type': undefined,
@@ -237,12 +235,8 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
             data: formdata
         }
 
-        $scope.new_nom = "";
-        $scope.new_prenom = "";
-        $scope.new_datenaiss = "";
-        $scope.new_email = "";
-        $scope.new_sexe = "";
-        $scope.new_mdp = "";
+        $scope.new_code = "";
+        $scope.new_quantiteProduit = "";
 
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
@@ -270,11 +264,11 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
         console.log(idutil);
         console.log($scope.update_mdp);
         var formdata = new FormData();
-        formdata.append('idutil', idutil);
+        formdata.append('idachat', idutil);
         formdata.append('mdp', $scope.update_mdp);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
+            url: 'http://localhost/Web-Service-Evaluation/AchatController/annuler',
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
             headers: {
                 'Content-Type': undefined,
@@ -289,6 +283,8 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
             if (response.data.status == "success") {
                 console.log(response.data);
                 $scope.erreurUpdate = "";
+                $scope.editUtil = "";
+                $scope.vue = "create";
                 $scope.rechercher();
             }
             else {
@@ -298,6 +294,9 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
                     $location.path('/');
                 }
                 if(response.data.message == "Erreur de modification"){
+                    $scope.erreurUpdate = response.data.datas.exception;
+                }
+                if(response.data.message == "Erreur annulation achat"){
                     $scope.erreurUpdate = response.data.datas.exception;
                 }
                 
@@ -336,6 +335,131 @@ pageApp.controller("AchatCtrl", function(ExcelFactory,$scope,$http,$location,$co
         }, function myError(response) {
             console.log(response);
         }); 
+    }
+
+    $scope.valider = function(){
+        console.log('valider achat');
+
+        var req = {
+            method: 'POST',
+            url: 'http://localhost/Web-Service-Evaluation/AchatController/getTicket',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/supprimer/'+idutil,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                console.log(response.data);
+                $scope.vue = "";
+                $scope.afficher = "ticket";
+                $scope.achat = response.data.datas.ticket;
+                $scope.chiffreAffaire = $scope.achat[0].prixtotal;
+                $scope.getArticle();
+                //$location.path('ticket');
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    $location.path('/');
+                }
+                if(response.data.message == "Erreur d\'insertion"){
+                    $scope.aucunUtilisateur = response.data.datas.exception;
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        }); 
+    }
+
+    $scope.getArticle = function(){
+        console.log("rechercher");
+
+        console.log($scope.currentPage);
+        var req = {
+            method: 'GET',
+            url: 'http://localhost/Web-Service-Evaluation/ArticleController/selectComplet/'+$scope.currentPage,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
+                $scope.article = response.data.datas.article;
+                $scope.pageCount = response.data.datas.nbPage;
+                console.log($scope.pageCount);
+                console.log($scope.utilisateurs);
+                console.log(response.data);
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    console.log($rootScope.erreurLogin);
+                    $location.path('/');
+                }
+                if(response.data.message == "Aucun Article"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        });
+
+    }
+
+    $scope.rechercherTicket = function(){
+        console.log("rechercher ticket");
+
+        console.log($scope.currentPage);
+        var req = {
+            method: 'GET',
+            url: 'http://localhost/Web-Service-Evaluation/AchatController/selectComplet/'+$scope.currentPage,
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/recherche/'+$scope.currentPage+'?nom='+$scope.nom+'&email='+$scope.email+'&dateDeb='+dateDebStr+'&dateFin='+dateFinStr,
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            }
+        }
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                $scope.pageIsVisible = "oui";
+                $scope.aucunUtilisateur = "";
+                $scope.utilisateurs = response.data.datas.achat;
+                $scope.pageCount = response.data.datas.nbPage;
+                console.log($scope.pageCount);
+                console.log($scope.utilisateurs);
+                console.log(response.data);
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    console.log($rootScope.erreurLogin);
+                    $location.path('/');
+                }
+                
+                if(response.data.message == "Stock insuffisant"){
+                    $scope.utilisateurs = "";
+                    $scope.aucunUtilisateur = "Aucun resultat trouve";
+                    $scope.pageIsVisible = "non";
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        });
+
     }
 
     $scope.deconnexion = function (){
