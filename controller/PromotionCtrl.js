@@ -381,16 +381,19 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
         }); 
     }
     
-    $scope.update = function(idutil){
+    $scope.update = function(idarticle){
         console.log('update');
-        console.log(idutil);
-        console.log($scope.update_mdp);
+        console.log(idarticle);
+        console.log($scope.update_pourcentage);
+        console.log($scope.update_gratuit);
+
         var formdata = new FormData();
-        formdata.append('idutil', idutil);
-        formdata.append('mdp', $scope.update_mdp);
+        formdata.append('idarticle', idarticle);
+        formdata.append('idpourcentage', $scope.update_pourcentage);
+        formdata.append('idgratuit', $scope.update_gratuit);
         var req = {
             method: 'POST',
-            url: 'http://localhost/Web-Service-Evaluation/UtilisateurController/modifier',
+            url: 'http://localhost/Web-Service-Evaluation/PromotionController/modifier',
             //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/modifier',
             headers: {
                 'Content-Type': undefined,
@@ -399,13 +402,14 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
             data: formdata
         }
 
-        $scope.update_mdp = "";
+        $scope.update_pourcentage = "";
+        $scope.update_gratuit = "";
 
         $http(req).then(function mySuccess(response) {
             if (response.data.status == "success") {
                 console.log(response.data);
                 $scope.erreurUpdate = "";
-                $scope.rechercher();
+                $scope.getArticle();
             }
             else {
                 console.log(response.data);    

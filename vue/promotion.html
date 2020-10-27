@@ -209,13 +209,14 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Pourcentage</label>
-                        <select class="custom-select" ng-options="item.value as item.libelle for item in sexeSelect" ng-model="new_sexe"></select>
+                        <input type="text" class="form-control" ng-model = "update_pourcentage" >
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Gratuité</label>
-                        <select class="custom-select" ng-options="item.idpourcentage as item.pourcentage for item in sexeSelect" ng-model="new_sexe"></select>
+                        <label for="exampleInputUsername1">Gratuité</label>
+                        <input type="text" class="form-control" ng-model = "update_gratuit">
                       </div>
-                      <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idutil)">Modifier</button>
+                      
+                      <button type="submit" class="btn btn-gradient-primary" ng-click="update(editUtil.idarticle)">Modifier</button>
                     </form>
                   </div>
                 </div>
