@@ -178,23 +178,23 @@
                         <thead>
                           <tr>
                             <th class ="text-center" ng-click = "tri('prenom')">Code</th>
-                            <th class ="text-center" ng-click = "tri('email')">PxUnit</th>
+                            <!-- <th class ="text-center" ng-click = "tri('email')">Designation</th> -->
                             <th class ="text-center" ng-click = "tri('email')">Prc</th>
-                            <th class ="text-center" ng-click = "tri('email')">PxUnit(Final)</th>
-                            <th class ="text-center" ng-click = "tri('email')">Ach-Off</th>
+                            <th class ="text-center" ng-click = "tri('email')">Grt-Prc</th>
+                            <th class ="text-center" ng-click = "tri('email')">Gratuit</th>
                             <th class ="text-center" ng-click = "tri('email')">Pay-Obt</th>
                             <th class ="text-center" ng-click = "tri('datenaiss')">PxTotal</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr ng-repeat="util in achat">
-                            <td class ="text-center">{{util.qtecaisse}} {{util.code}}</td>
-                            <td class ="text-center">{{util.prixunitairesansremise}}</td>
-                            <td class ="text-center">{{util.pourcentage}}</td>
-                            <td class ="text-center">{{util.nouveauprixunitaire}}</td>
-                            <td class ="text-center">{{util.nbmin}}-{{util.nbgratuit}}</td>
+                            <td class ="text-center">({{util.qtecaisse}}) {{util.code}}</td>
+                            <!-- <td class ="text-center">{{util.designation}}</td> -->
+                            <td class ="text-center">{{util.pourcentage}}%</td>
+                            <td class ="text-center">{{util.nbminprc}}-{{util.prc}}%</td>
+                            <td class ="text-center">{{util.nbmin}} Ach - {{util.nbgratuit}} Off</td>
                             <td class ="text-center">{{util.aPayer}}-{{util.qtetotal}}</td>
-                            <td class ="text-center">{{util.prixavecpourcentage}}</td>
+                            <td class ="text-center">{{util.prixtotalarticle}}</td>
                           </tr>
                         </tbody>
                       </table>
