@@ -270,7 +270,7 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
 
     }
 
-    $scope.rechercher();
+    //$scope.rechercher();
 
     $scope.tri = function(param){
         console.log(param);
