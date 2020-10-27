@@ -380,6 +380,86 @@ pageApp.controller("PromotionCtrl", function(ExcelFactory,$scope,$http,$location
             console.log(response);
         }); 
     }
+
+    $scope.newPourcentage = function(){
+        console.log('create prc');
+
+        var formdata = new FormData();
+        formdata.append('pourcentage', $scope.new_pourcentage);
+        var req = {
+            method: 'POST',
+            url: 'http://localhost/Web-Service-Evaluation/PromotionController/nouveauPourcentage',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            },
+            data: formdata
+        }
+
+        $scope.new_pourcentage = "";
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                console.log(response.data);
+                $scope.erreurPourcentage = "";
+                $scope.getArticle();
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    $location.path('/');
+                }
+                if(response.data.message == "Erreur d'insertion"){
+                    $scope.erreurPourcentage = response.data.datas.exception;
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        }); 
+    }
+
+    $scope.newGratuit = function(){
+        console.log('create gratuit');
+
+        var formdata = new FormData();
+        formdata.append('nbmin', $scope.new_min);
+        formdata.append('nbgratuit', $scope.new_gratuit);
+        var req = {
+            method: 'POST',
+            url: 'http://localhost/Web-Service-Evaluation/PromotionController/nouveauGratuit',
+            //url: 'https://ws-evaluation-itu.herokuapp.com/UtilisateurController/nouveau',
+            headers: {
+                'Content-Type': undefined,
+                'Authorization': 'Bearer ' + $cookies.get('adminToken')
+            },
+            data: formdata
+        }
+
+        $scope.new_min = "";
+        $scope.new_gratuit = "";
+
+        $http(req).then(function mySuccess(response) {
+            if (response.data.status == "success") {
+                console.log(response.data);
+                $scope.erreurGratuit = "";
+                $scope.getArticle();
+            }
+            else {
+                console.log(response.data);    
+                if(response.data.datas.exception == "Veuiller d'abord vous connecter"){
+                    $rootScope.erreurLogin = response.data.datas.exception;
+                    $location.path('/');
+                }
+                if(response.data.message == "Erreur d'insertion"){
+                    $scope.erreurGratuit= response.data.datas.exception;
+                }
+            }
+        }, function myError(response) {
+            console.log(response);
+        }); 
+    }
     
     $scope.update = function(idarticle){
         console.log('update');
